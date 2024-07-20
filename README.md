@@ -5,4 +5,4 @@ Delphi Threaded Timer (currentlly target only vcl ..) but it's not that hard to 
 ![](I_TimerThread_Use.png)
 
 #API.ThreadTimer
-![](I_TimerThread.png)
+![](I_TimerThread_WithException.png)
