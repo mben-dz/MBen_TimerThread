@@ -3,8 +3,7 @@ unit API.ThreadTimer;
 interface
 
 uses
-  System.Classes
-,  System.Threading
+ API.Logger
 ;
 
 type
@@ -21,15 +20,16 @@ type
     function Interval(const aValue: Cardinal): I_TimerThread;
   end;
 
-function Create_TimerThread: I_TimerThread;
+function Create_TimerThread(aExceptionLog: I_Log = nil): I_TimerThread;
 
 implementation
 
 uses
-  System.SysUtils
-, System.SyncObjs
-, Vcl.Dialogs
-, TypInfo
+  System.SysUtils    // Used for []
+, System.Classes     // Used for [TThread]
+, System.Threading   // Used for [ITask]
+, System.SyncObjs    // Used for [TCriticalSection]
+
 ;
 
 type
@@ -42,10 +42,14 @@ type
     fTag: Integer;
     fStopTask: Boolean;
     fLock: TCriticalSection;
+    fException: Exception;
+    fExceptLog: I_Log;
+
   private
     procedure Start;
     procedure Stop;
     procedure Execute;
+    procedure HandleException;
 
     function Init: I_TimerThread;
     function Tag: Integer; overload;
@@ -55,13 +59,13 @@ type
     function Enabled(const aValue: Boolean): I_TimerThread;
     function Interval(const aValue: Cardinal): I_TimerThread;
   public
-    constructor Create;
+    constructor Create(aExceptionLog: I_Log = nil);
     destructor Destroy; override;
   end;
 
-function Create_TimerThread: I_TimerThread;
+function Create_TimerThread(aExceptionLog: I_Log): I_TimerThread;
 begin
-  Result := TTimerThread.Create;
+  Result := TTimerThread.Create(aExceptionLog);
 end;
 
 { TTimerThread }
@@ -75,13 +79,15 @@ end;
 // TTaskStatus.WaitingForChildren this case also not implemented here because we didn't use ExecuteWork
 // or our fTask is an array of ITask ..
 
-constructor TTimerThread.Create;
+constructor TTimerThread.Create(aExceptionLog: I_Log);
 begin
-  fEnabled  := False;
-  fInterval := 1000; // Default interval 1000 ms (1 second)
-  fStopTask := False;
-  fTask     := nil;
-  fLock     := TCriticalSection.Create;
+  fEnabled   := False;
+  fInterval  := 1000; // Default interval 1000 ms (1 second)
+  fStopTask  := False;
+  fTask      := nil;
+  fLock      := TCriticalSection.Create;
+  fException := nil;
+  fExceptLog := aExceptionLog;
 
 end;
 
@@ -89,6 +95,7 @@ destructor TTimerThread.Destroy;
 begin
   Stop;
   fLock.Free;
+
   inherited Destroy;
 end;
 
@@ -102,13 +109,30 @@ begin
         fTask.Wait(fInterval); // pause thread by [Interval millisec] then Restart call again After every Sleep complete ..
 
         if Assigned(fOnTask)and fEnabled and (fTask.Status = TTaskStatus.Running) then begin
-          TTask.Run(fOnTask);
+          TTask.Run(procedure begin
+            try
+              fOnTask
+            except on Ex: Exception do begin
+                fException := Ex;
+                TThread.Synchronize(nil, HandleException);
+              end;
+            end;
+          end);
         end else Exit;
       finally
         fLock.Leave;
       end;
     end;
 
+  end;
+end;
+
+procedure TTimerThread.HandleException;
+begin
+  if Assigned(fException) then begin
+
+    fExceptLog.Log('Exception in thread: ' + fException.Message);
+    fException := nil;
   end;
 end;
 

@@ -133,6 +133,7 @@
             <Form>MainView</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="API\API.Logger.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
@@ -159,7 +160,7 @@
                 </Excluded_Packages>
             </Delphi.Personality>
             <Deployment Version="4">
-                <DeployFile LocalName="Win32\Debug\TimerThread.exe" Configuration="Debug" Class="ProjectOutput">
+                <DeployFile LocalName="DEPLOY\APP\TimerThread.exe" Configuration="Debug" Class="ProjectOutput">
                     <Platform Name="Win32">
                         <RemoteName>TimerThread.exe</RemoteName>
                         <Overwrite>true</Overwrite>

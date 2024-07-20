@@ -16,6 +16,8 @@ uses
 , Vcl.ExtCtrls
 
 , API.ThreadTimer
+, API.Logger
+
 ;
 
 type
@@ -27,6 +29,7 @@ type
     Lbl_TagThread: TLabel;
     Lbl_TagTimer: TLabel;
     Btn_ChangeInterval: TButton;
+    Memo_Log: TMemo;
     procedure Btn_StartStop_Click(Sender: TObject);
     procedure Timer_1Timer(Sender: TObject);
     procedure Btn_StartDelphiTimer_Click(Sender: TObject);
@@ -34,15 +37,19 @@ type
 
   private  { Private declarations }
     fTimer: I_TimerThread;
+    fExceptLog: I_Log;
     function Get_Timer: I_TimerThread;
+    function Get_ExceptLogger: I_Log;
 
     procedure DoStart(aSender: TObject);
     procedure Do_Start;
     procedure DoStop(aSender: TObject);
     procedure DoSomething;
+
   public { Public declarations }
 
     property Timer: I_TimerThread read Get_Timer;
+    property ExceptLog: I_Log read Get_ExceptLogger;
   end;
 
 var
@@ -57,10 +64,18 @@ uses
 
 { TForm1 }
 
+function TMainView.Get_ExceptLogger: I_Log;
+begin
+  if not Assigned(fExceptLog) then
+    fExceptLog := Create_Log(Memo_Log);
+
+  Result := fExceptLog;
+end;
+
 function TMainView.Get_Timer: I_TimerThread;
 begin
   if not Assigned(fTimer) then begin
-    fTimer := Create_TimerThread;
+    fTimer := Create_TimerThread(ExceptLog);
 
     fTimer
       .Init

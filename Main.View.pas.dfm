@@ -1,9 +1,10 @@
 object MainView: TMainView
   Left = 0
   Top = 0
+  BorderStyle = bsSingle
   Caption = 'MainView'
-  ClientHeight = 164
-  ClientWidth = 598
+  ClientHeight = 185
+  ClientWidth = 863
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -14,7 +15,7 @@ object MainView: TMainView
   TextHeight = 21
   object Lbl_TagThread: TLabel
     Left = 248
-    Top = 40
+    Top = 49
     Width = 92
     Height = 21
     Caption = 'Lbl_TagThread'
@@ -38,14 +39,15 @@ object MainView: TMainView
   end
   object Pnl_Status: TPanel
     Left = 0
-    Top = 134
-    Width = 598
+    Top = 155
+    Width = 863
     Height = 30
     Align = alBottom
+    Alignment = taLeftJustify
     BevelOuter = bvNone
     TabOrder = 1
     ExplicitTop = 126
-    ExplicitWidth = 596
+    ExplicitWidth = 861
   end
   object Btn_StartDelphiTimer: TButton
     Left = 24
@@ -58,14 +60,32 @@ object MainView: TMainView
     OnClick = Btn_StartDelphiTimer_Click
   end
   object Btn_ChangeInterval: TButton
-    Left = 360
-    Top = 28
+    Left = 191
+    Top = 2
     Width = 177
     Height = 41
     Caption = 'set interval to half Sec'
     Enabled = False
     TabOrder = 3
     OnClick = Btn_ChangeIntervalClick
+  end
+  object Memo_Log: TMemo
+    Left = 391
+    Top = 8
+    Width = 464
+    Height = 148
+    Color = 8076862
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clLime
+    Font.Height = -17
+    Font.Name = 'Bahnschrift SemiLight SemiConde'
+    Font.Style = []
+    Font.Quality = fqClearTypeNatural
+    Lines.Strings = (
+      'Exception Log:')
+    ParentFont = False
+    ScrollBars = ssVertical
+    TabOrder = 4
   end
   object Timer_1: TTimer
     Enabled = False

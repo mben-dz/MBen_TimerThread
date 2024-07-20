@@ -6,7 +6,7 @@ uses
   ;
 
 type
-  TControl = class(Vcl.Controls.TControl)  // To Access Protected TControl Text Property..
+  THackControl = class(Vcl.Controls.TControl)  // To Access Protected TControl Text Property..
   private
     function Get_Text: TCaption;
     procedure Set_Text(const aValue: TCaption);
@@ -16,14 +16,14 @@ type
 
 implementation
 
-{ TControl }
+{ THackControl }
 
-function TControl.Get_Text: TCaption;
+function THackControl.Get_Text: TCaption;
 begin
   Result := Text;
 end;
 
-procedure TControl.Set_Text(const aValue: TCaption);
+procedure THackControl.Set_Text(const aValue: TCaption);
 begin
   Text := aValue;
 end;

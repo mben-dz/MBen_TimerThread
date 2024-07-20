@@ -6,7 +6,8 @@ uses
   System.Classes  // Used For [TComponent]
 , System.SysUtils // Used For [TProc]
 , System.SyncObjs // Used For [TCriticalSection]
-, API.Controls.Hack
+
+, Vcl.Controls
 ;
 
 type
@@ -30,7 +31,8 @@ type
 implementation
 
 uses
-  Vcl.Controls
+  API.Controls.Hack
+
 ;
 
 { TCaseTag }
@@ -39,7 +41,7 @@ constructor TCaseTag.&For(aSender: TObject);
 begin
   if (aSender is Vcl.Controls.TControl) then begin
     fSender := aSender;
-    fComp   := API.Controls.Hack.TControl(aSender);
+    fComp   := vcl.Controls.TControl(aSender);
     fLock   := TCriticalSection.Create;
 
   end else raise Exception.Create('Error: Only Controls Accepted !!');
@@ -64,7 +66,7 @@ begin
       aDoSomething;
       fNextTag := aNextTag;
       if not aCaption.IsEmpty then
-        API.Controls.Hack.TControl(fSender).LText := aCaption;
+        THackControl(fSender).LText := aCaption;
     end;
   finally
     fLock.Release;
@@ -83,7 +85,7 @@ begin
       aDoSomething(fSender);
       fNextTag := aNextTag;
       if not aCaption.IsEmpty then
-        API.Controls.Hack.TControl(fSender).LText := aCaption;
+        THackControl(fSender).LText := aCaption;
     end;
   finally
     fLock.Release;

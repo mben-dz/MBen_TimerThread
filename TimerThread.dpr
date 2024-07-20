@@ -5,7 +5,8 @@ uses
   API.Controls.Hack in 'API\API.Controls.Hack.pas',
   API.ThreadTimer in 'API\API.ThreadTimer.pas',
   API.Helpers in 'API\API.Helpers.pas',
-  Main.View.pas in 'Main.View.pas.pas' {MainView};
+  Main.View.pas in 'Main.View.pas.pas' {MainView},
+  API.Logger in 'API\API.Logger.pas';
 
 {$R *.res}
 
