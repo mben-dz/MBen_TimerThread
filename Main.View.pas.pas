@@ -72,9 +72,12 @@ begin
 end;
 
 procedure TMainView.DoSomething;
+var
+  L_Str: TStringList;
 begin
   Timer.IncTag;
   Lbl_TagThread.Caption := 'Timer Event: ' +Timer.Tag.ToString;
+  L_Str.Add(Lbl_TagThread.Caption); // Try add bad code here !!
 end;
 
 procedure TMainView.DoStart(aSender: TObject);
@@ -105,9 +108,12 @@ begin
 end;
 
 procedure TMainView.Timer_1Timer(Sender: TObject);
+var
+  L_Str: TStringList;
 begin
   Timer_1.Tag := Timer_1.Tag +1;
   Lbl_TagTimer.Caption := 'Timer Event: ' +Timer_1.Tag.ToString;
+//  L_Str.Add(Lbl_TagThread.Caption); // Try add bad code here !!
 end;
 
 procedure TMainView.Do_Start;

@@ -196,6 +196,7 @@ end;
 function TTimerThread.IncTag(aStep: Integer = 1): I_TimerThread;
 begin
   Result := Self;
+
   if Assigned(fTask) and
   (fTask.Status in [TTaskStatus.Running]) then // this called only when fTask is Running ..
     inc(fTag, aStep);
