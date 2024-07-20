@@ -28,6 +28,8 @@ implementation
 uses
   System.SysUtils
 , System.SyncObjs
+, Vcl.Dialogs
+, TypInfo
 ;
 
 type
@@ -63,13 +65,24 @@ begin
 end;
 
 { TTimerThread }
+//  TTaskStatus = (Created, WaitingToRun, Running, Completed, WaitingForChildren, Canceled, Exception);
+
+// TTaskStatus.Created => fTask := TTask.Create(Execute); // TTaskStatus.Created ..(not running yet!!)
+// TTaskStatus.WaitingToRun if there is a [TEvent] from syncOBJ that fTask must wait for complete to run
+// TTaskStatus.Running => fTask.Start (here the fTask is running)..
+// TTaskStatus.Completed => in our case the fTask never meet this Status
+//          where is running inside a while loop and stopped either by [Canceled or Exception] status !!
+// TTaskStatus.WaitingForChildren this case also not implemented here because we didn't use ExecuteWork
+// or our fTask is an array of ITask ..
 
 constructor TTimerThread.Create;
 begin
   fEnabled  := False;
   fInterval := 1000; // Default interval 1000 ms (1 second)
   fStopTask := False;
+  fTask     := nil;
   fLock     := TCriticalSection.Create;
+
 end;
 
 destructor TTimerThread.Destroy;
@@ -104,25 +117,29 @@ begin
   Result := Self;
 
   if not Assigned(fTask) then
-    fTask := TTask.Create(Execute);
+    fTask := TTask.Create(Execute); // TTaskStatus.Created ..(not running yet!!)
+
 end;
 
 procedure TTimerThread.Start;
 begin
-  if Assigned(fTask) and
-  (fTask.Status in
-    [TTaskStatus.Created,
-     TTaskStatus.Completed, TTaskStatus.Canceled,
-     TTaskStatus.Exception]) then
-  try
-    fStopTask := False;
-    fTask.Start;
-  except on Ex: Exception do
-    raise Exception.Create('Error: ' +Ex.Message);
+  if Assigned(fTask) then begin
+    if not (fTask.Status in
+                 [TTaskStatus.Running]) then
+    try
+      fStopTask := False;
+      fTask.Start;
+    except on Ex: Exception do
+      raise Exception.Create('Error: ' +Ex.Message);
+    end;
   end else begin
     Init;
-    fStopTask := False;
-    fTask.Start;
+    try
+      fStopTask := False;
+      fTask.Start;
+    except on Ex: Exception do
+      raise Exception.Create('Error: ' +Ex.Message);
+    end;
   end;
 
 end;
@@ -131,28 +148,16 @@ procedure TTimerThread.Stop;
 begin
   fEnabled  := False;
   fStopTask := True;
+  fTag      := 0;
 
-  if Assigned(fTask) and
-  (fTask.Status in
-    [TTaskStatus.Created,
-     TTaskStatus.Completed, TTaskStatus.Canceled,
-     TTaskStatus.Exception]) then
-     try
-      fTask.Cancel;
-     finally
-       fTask := nil;
-     end else
-
-  if Assigned(fTask) and
-  (fTask.Status in
-    [TTaskStatus.Running,
-     TTaskStatus.WaitingToRun,
-     TTaskStatus.WaitingForChildren]) then
-    try
-      fTask.Wait;
-    finally
-      fTask := nil;
-    end;
+  if Assigned(fTask) then
+  try
+//    if (fTask.Status in
+//                 [TTaskStatus.Running]) then
+    fTask.Cancel;
+  finally
+    fTask := nil;
+  end;
 
 end;
 
@@ -160,9 +165,8 @@ function TTimerThread.Tag(const aValue: Integer): I_TimerThread;
 begin
   Result := Self;
 
-  if Assigned(fTask) and
-  (fTask.Status in [TTaskStatus.Created, TTaskStatus.WaitingToRun, TTaskStatus.Completed, TTaskStatus.Canceled, TTaskStatus.Exception]) then
-  fTag   := aValue;
+  if Assigned(fTask) then
+    fTag := aValue;
 end;
 
 function TTimerThread.Tag: Integer;
@@ -193,16 +197,15 @@ function TTimerThread.IncTag(aStep: Integer = 1): I_TimerThread;
 begin
   Result := Self;
   if Assigned(fTask) and
-  (fTask.Status in [TTaskStatus.Created, TTaskStatus.WaitingToRun, TTaskStatus.Completed, TTaskStatus.Canceled, TTaskStatus.Exception]) then
+  (fTask.Status in [TTaskStatus.Running]) then // this called only when fTask is Running ..
     inc(fTag, aStep);
 end;
 
 function TTimerThread.Interval(const aValue: Cardinal): I_TimerThread;
 begin
   Result    := Self;
-  if Assigned(fTask) and
-  (fTask.Status in [TTaskStatus.Created, TTaskStatus.WaitingToRun, TTaskStatus.Completed, TTaskStatus.Canceled, TTaskStatus.Exception]) then
-  fInterval := aValue;
+  if Assigned(fTask) then
+    fInterval := aValue;
 end;
 
 end.

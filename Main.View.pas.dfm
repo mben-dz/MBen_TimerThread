@@ -3,7 +3,7 @@ object MainView: TMainView
   Top = 0
   Caption = 'MainView'
   ClientHeight = 164
-  ClientWidth = 362
+  ClientWidth = 598
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -12,6 +12,20 @@ object MainView: TMainView
   Font.Style = []
   Font.Quality = fqClearTypeNatural
   TextHeight = 21
+  object Lbl_TagThread: TLabel
+    Left = 248
+    Top = 40
+    Width = 92
+    Height = 21
+    Caption = 'Lbl_TagThread'
+  end
+  object Lbl_TagTimer: TLabel
+    Left = 248
+    Top = 107
+    Width = 85
+    Height = 21
+    Caption = 'Lbl_TagTimer'
+  end
   object Btn_StartStop: TButton
     Left = 24
     Top = 24
@@ -25,13 +39,13 @@ object MainView: TMainView
   object Pnl_Status: TPanel
     Left = 0
     Top = 134
-    Width = 362
+    Width = 598
     Height = 30
     Align = alBottom
     BevelOuter = bvNone
     TabOrder = 1
     ExplicitTop = 126
-    ExplicitWidth = 360
+    ExplicitWidth = 596
   end
   object Btn_StartDelphiTimer: TButton
     Left = 24
@@ -42,6 +56,16 @@ object MainView: TMainView
     Caption = 'Start Delphi Timer'
     TabOrder = 2
     OnClick = Btn_StartDelphiTimer_Click
+  end
+  object Btn_ChangeInterval: TButton
+    Left = 360
+    Top = 28
+    Width = 177
+    Height = 41
+    Caption = 'set interval to half Sec'
+    Enabled = False
+    TabOrder = 3
+    OnClick = Btn_ChangeIntervalClick
   end
   object Timer_1: TTimer
     Enabled = False

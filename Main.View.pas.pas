@@ -3,7 +3,7 @@ unit Main.View.pas;
 interface
 
 uses
-Winapi.Windows
+  Winapi.Windows
 , Winapi.Messages
 , System.SysUtils
 , System.Variants
@@ -12,8 +12,10 @@ Winapi.Windows
 , Vcl.Controls
 , Vcl.Forms
 , Vcl.Dialogs
+, Vcl.StdCtrls
+, Vcl.ExtCtrls
 
-, API.ThreadTimer, Vcl.StdCtrls, Vcl.ExtCtrls
+, API.ThreadTimer
 ;
 
 type
@@ -22,9 +24,13 @@ type
     Pnl_Status: TPanel;
     Timer_1: TTimer;
     Btn_StartDelphiTimer: TButton;
+    Lbl_TagThread: TLabel;
+    Lbl_TagTimer: TLabel;
+    Btn_ChangeInterval: TButton;
     procedure Btn_StartStop_Click(Sender: TObject);
     procedure Timer_1Timer(Sender: TObject);
     procedure Btn_StartDelphiTimer_Click(Sender: TObject);
+    procedure Btn_ChangeIntervalClick(Sender: TObject);
 
   private  { Private declarations }
     fTimer: I_TimerThread;
@@ -55,9 +61,10 @@ function TMainView.Get_Timer: I_TimerThread;
 begin
   if not Assigned(fTimer) then begin
     fTimer := Create_TimerThread;
+
     fTimer
       .Init
-      .Interval(2000) // Set interval to 2 seconds
+      .Interval(3000) // Set interval to 3 seconds
       .OnTask(DoSomething);
   end;
 
@@ -67,7 +74,7 @@ end;
 procedure TMainView.DoSomething;
 begin
   Timer.IncTag;
-  ShowMessage('Timer Event: ' +Timer.Tag.ToString);
+  Lbl_TagThread.Caption := 'Timer Event: ' +Timer.Tag.ToString;
 end;
 
 procedure TMainView.DoStart(aSender: TObject);
@@ -76,11 +83,14 @@ begin
   Btn_StartStop.Caption := 'Stop Thread Timer';
   Timer
     .Enabled(True);
+
+  Btn_ChangeInterval.Enabled := True;
 end;
 
 procedure TMainView.DoStop(aSender: TObject);
 begin
   Timer.Enabled(False);
+  Btn_ChangeInterval.Enabled := False;
   Pnl_Status.Caption := ' Button event "Click" with Tag: ' +TComponent(aSender).Tag.ToString;
   Btn_StartStop.Caption := 'Start Thread Timer';
 end;
@@ -97,7 +107,7 @@ end;
 procedure TMainView.Timer_1Timer(Sender: TObject);
 begin
   Timer_1.Tag := Timer_1.Tag +1;
-  ShowMessage('Timer Event: ' +Timer_1.Tag.ToString);
+  Lbl_TagTimer.Caption := 'Timer Event: ' +Timer_1.Tag.ToString;
 end;
 
 procedure TMainView.Do_Start;
@@ -108,6 +118,11 @@ end;
 procedure Do_Stop;
 begin
   TMainView(Application.MainForm).Timer_1.Enabled := False;
+end;
+
+procedure TMainView.Btn_ChangeIntervalClick(Sender: TObject);
+begin
+  Timer.Interval(500);
 end;
 
 procedure TMainView.Btn_StartDelphiTimer_Click(Sender: TObject);

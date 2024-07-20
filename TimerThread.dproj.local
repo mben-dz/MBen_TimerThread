@@ -1,26 +1,26 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <BorlandProject>
 	<Transactions>
+    <Transaction>1899-12-30 00:00:00.000.332,D:\2025\Projects\TimerThread\Unit1.pas=D:\2025\Projects\TimerThread\API\API.Helpers.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.910,D:\2025\Projects\TimerThread\Unit1.pas=D:\2025\Projects\TimerThread\API\API.Attrib.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.499,D:\2025\Projects\TimerThread\Unit1.pas=D:\2025\Projects\TimerThread\API\API.ThreadTimer.pas</Transaction>
     <Transaction>1899-12-30 00:00:00.000.477,D:\2025\Projects\TimerThread\Unit1.pas=D:\2025\Projects\TimerThread\API\API.Helping.pas</Transaction>
     <Transaction>1899-12-30 00:00:00.000.908,=D:\2025\Projects\TimerThread\Unit1.pas</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.910,D:\2025\Projects\TimerThread\Unit1.pas=D:\2025\Projects\TimerThread\API\API.Attrib.pas</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.804,=D:\2025\Projects\TimerThread\Unit1.pas</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.332,D:\2025\Projects\TimerThread\Unit1.pas=D:\2025\Projects\TimerThread\API\API.Helpers.pas</Transaction>
     <Transaction>1899-12-30 00:00:00.000.780,D:\2025\Projects\TimerThread\API\API.Helping.pas=</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.792,D:\2025\Projects\Unit1.pas=D:\2025\Projects\TimerThread\Main.View.pas.pas</Transaction>
     <Transaction>1899-12-30 00:00:00.000.071,=D:\2025\Projects\Unit1.pas</Transaction>
     <Transaction>1899-12-30 00:00:00.000.273,=D:\2025\Projects\Unit1.pas</Transaction>
     <Transaction>1899-12-30 00:00:00.000.560,=D:\2025\Projects\Unit1.pas</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.713,=D:\2025\Projects\TimerThread\Unit1.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.792,D:\2025\Projects\Unit1.pas=D:\2025\Projects\TimerThread\Main.View.pas.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.804,=D:\2025\Projects\TimerThread\Unit1.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.557,=D:\2025\Projects\TimerThread\API\API.Controls.Hack.pas</Transaction>
     <Transaction>1899-12-30 00:00:00.000.792,D:\2025\Projects\Unit1.dfm=D:\2025\Projects\TimerThread\Main.View.pas.dfm</Transaction>
     <Transaction>1899-12-30 00:00:00.000.513,D:\2025\Projects\TimerThread\Unit2.pas=</Transaction>
     <Transaction>1899-12-30 00:00:00.000.904,=D:\2025\Projects\TimerThread\Unit2.pas</Transaction>
     <Transaction>1899-12-30 00:00:00.000.952,D:\2025\Projects\Project1.dproj=D:\2025\Projects\TimerThread\TimerThread.dproj</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.979,D:\2025\Projects\TimerThread\API\API.Helpers.pas=</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.499,D:\2025\Projects\TimerThread\Unit1.pas=D:\2025\Projects\TimerThread\API\API.ThreadTimer.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.713,=D:\2025\Projects\TimerThread\Unit1.pas</Transaction>
     <Transaction>1899-12-30 00:00:00.000.920,=D:\2025\Projects\TimerThread\Unit1.pas</Transaction>
     <Transaction>1899-12-30 00:00:00.000.478,D:\2025\Projects\TimerThread\API\API.Attrib.pas=</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.979,D:\2025\Projects\TimerThread\API\API.Helpers.pas=</Transaction>
     <Transaction>1899-12-30 00:00:00.000.684,=D:\2025\Projects\TimerThread\API\API.Helpers.pas</Transaction>
-    <Transaction>2024-07-19 05:45:39.557,=D:\2025\Projects\TimerThread\API\API.Controls.Hack.pas</Transaction>
   </Transactions>
 </BorlandProject>
